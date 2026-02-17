@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "199214585868",
+    "project_id": "examora-b79fd",
+    "storage_bucket": "examora-b79fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199214585868:android:99b659f296b3afb17b7629",
+        "android_client_info": {
+          "package_name": "com.example.examora"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy8eWXTGN6r-TreN7d2Qa-KyCFRrbMcxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
