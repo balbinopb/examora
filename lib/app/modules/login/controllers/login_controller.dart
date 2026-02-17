@@ -1,8 +1,10 @@
 import 'package:examora/app/data/services/auth_service.dart';
 import 'package:examora/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginController extends GetxController {
   TextEditingController emailC = TextEditingController();
@@ -51,16 +53,30 @@ class LoginController extends GetxController {
     return true;
   }
 
-  Future<void> login() async {
+  Future<void> login(BuildContext context) async {
+    if (!validation()) return;
     try {
-      isLoading.value = true;
 
-      if (!validation()) return;
+      // isLoading.value = true;
+
+      // loading animation
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => Center(
+          child: Lottie.asset('assets/lottie/loading.json', width: 120),
+        ),
+      );
 
       await _authService.signInWithEmailPassword(
         email: emailC.text.trim(),
         password: passwordC.text.trim(),
       );
+
+      // close loading
+      Get.back();
+      Get.offAndToNamed(Routes.HOME);
+      
     } on FirebaseAuthException {
       Get.snackbar(
         "Falha no Login",
