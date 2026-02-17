@@ -1,5 +1,6 @@
 import 'package:examora/app/components/my_button.dart';
 import 'package:examora/app/components/my_text_field.dart';
+import 'package:examora/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -23,31 +24,35 @@ class LoginView extends GetView<LoginController> {
                 color: Theme.of(context).colorScheme.primary,
               ),
 
-               SizedBox(height: 20),
-            MyTextField(hintText: "Email", controller: controller.emailC),
-            SizedBox(height: 15),
-            MyTextField(
-              hintText: "Password",
-              controller: controller.passwordC,
-              obscureText: true,
-            ),
-            SizedBox(height: 15),
-            MyButton(text: "Login", onTap: () => controller.login()),
-            SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Don't have an account?",
-                  style: TextStyle(color: Colors.grey),
-                ),
-                TextButton(
-                  onPressed: () {
-                  },
-                  child: Text("register", style: TextStyle(color: Colors.grey)),
-                ),
-              ],
-            ),
+              const SizedBox(height: 20),
+              MyTextField(hintText: "Email", controller: controller.emailC),
+              const SizedBox(height: 15),
+              MyTextField(
+                hintText: "Password",
+                controller: controller.passwordC,
+                obscureText: true,
+              ),
+              const SizedBox(height: 15),
+              MyButton(text: "Login", onTap: () => controller.login(context)),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't have an account?",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Get.toNamed(Routes.REGISTER);
+                    },
+                    child: const Text(
+                      "register",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
