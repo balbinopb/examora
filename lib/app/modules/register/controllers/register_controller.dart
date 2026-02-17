@@ -1,5 +1,102 @@
+import 'package:examora/app/data/services/auth_service.dart';
+import 'package:examora/app/routes/app_pages.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class RegisterController extends GetxController {
+  TextEditingController nameC = TextEditingController();
+  TextEditingController emailC = TextEditingController();
+  TextEditingController passwordC = TextEditingController();
+  TextEditingController confirmPasswordC = TextEditingController();
 
+  final AuthService _authService = AuthService();
+
+  final isLoading = false.obs;
+
+  bool validation() {
+    final name = nameC.text.trim();
+    final email = emailC.text.trim();
+    final password = passwordC.text.trim();
+    final confirmPassword = confirmPasswordC.text.trim();
+
+    if (name.isEmpty) {
+      showError("Naran seidauk prenxe");
+      return false;
+    }
+
+    if (email.isEmpty) {
+      showError("Email seidauk prenxe");
+      return false;
+    }
+
+    if (!GetUtils.isEmail(email)) {
+      showError("Email invalidu");
+      return false;
+    }
+
+    if (password.isEmpty) {
+      showError("Password seidauk prenxe");
+      return false;
+    }
+
+    if (password != confirmPassword) {
+      showError("A senha e a confirmação devem coincidir");
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<void> register(BuildContext context) async {
+    if (!validation()) return;
+
+    try {
+      isLoading.value = true;
+
+      Get.dialog(
+        Center(child: Lottie.asset('assets/lottie/loading.json', width: 120)),
+        barrierDismissible: false,
+      );
+
+      await _authService.createUserWithEmailPassword(
+        email: emailC.text.trim(),
+        password: passwordC.text.trim(),
+        name: nameC.text.trim(),
+      );
+
+      Get.back(); // close loading
+      Get.offAllNamed(Routes.HOME);
+    } on FirebaseAuthException catch (e) {
+      Get.back(); //to ensure the dialog closed
+
+      showError(e.message ?? "Ocorreu um erro");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void showError(String message) {
+    Get.snackbar(
+      "Erro",
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red.shade400,
+      colorText: Colors.white,
+      margin: const EdgeInsets.all(12),
+      borderRadius: 8,
+      duration: const Duration(seconds: 3),
+    );
+  }
+
+
+  @override
+  void onClose() {
+    nameC.dispose();
+    emailC.dispose();
+    passwordC.dispose();
+    confirmPasswordC.dispose();
+    super.onClose();
+  }
 }

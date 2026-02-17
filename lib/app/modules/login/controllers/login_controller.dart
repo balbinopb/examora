@@ -2,7 +2,6 @@ import 'package:examora/app/data/services/auth_service.dart';
 import 'package:examora/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -56,8 +55,7 @@ class LoginController extends GetxController {
   Future<void> login(BuildContext context) async {
     if (!validation()) return;
     try {
-
-      // isLoading.value = true;
+      isLoading.value = true;
 
       // loading animation
       showDialog(
@@ -76,7 +74,6 @@ class LoginController extends GetxController {
       // close loading
       Get.back();
       Get.offAndToNamed(Routes.HOME);
-      
     } on FirebaseAuthException {
       Get.snackbar(
         "Falha no Login",
@@ -88,8 +85,15 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> logout() async {
-    await _authService.logout();
-    Get.offAllNamed(Routes.LOGIN);
+  // Future<void> logout() async {
+  //   await _authService.logout();
+  //   Get.offAllNamed(Routes.LOGIN);
+  // }
+
+  @override
+  void onClose() {
+    emailC.dispose();
+    passwordC.dispose();
+    super.onClose();
   }
 }
