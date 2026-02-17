@@ -32,7 +32,7 @@ class LoginView extends GetView<LoginController> {
               obscureText: true,
             ),
             SizedBox(height: 15),
-            MyButton(text: "Login", onTap: () {}),
+            MyButton(text: "Login", onTap: () => controller.login()),
             SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
