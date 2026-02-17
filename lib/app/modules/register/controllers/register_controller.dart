@@ -65,6 +65,7 @@ class RegisterController extends GetxController {
         password: passwordC.text.trim(),
         name: nameC.text.trim(),
       );
+      print("---------------success------------");
 
       Get.back(); // close loading
       Get.offAllNamed(Routes.HOME);
